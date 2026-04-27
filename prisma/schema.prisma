@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id                  String      @id @default(uuid(7))
+  name                String      @unique
+  gender              GENDER_TYPE
+  gender_probability  Float
+  age                 Int
+  age_group           String
+  country_id          String      @db.VarChar(2)
+  country_probability Float
+  created_at          DateTime    @default(now())
+}
+
+enum GENDER_TYPE {
+  male
+  female
+}
