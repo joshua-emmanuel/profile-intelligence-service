@@ -51,13 +51,9 @@ async function createProfile(req, res) {
       nationalizeRes.json(),
     ]);
 
-    const {
-      gender,
-      probability: gender_probability,
-      count: sample_size,
-    } = genderData;
+    const { gender, probability: gender_probability } = genderData;
 
-    if (gender == null || sample_size == 0) {
+    if (gender == null) {
       return res.status(502).json({
         status: "502",
         message: "Genderize returned an invalid response",
@@ -104,7 +100,6 @@ async function createProfile(req, res) {
         name,
         gender,
         gender_probability,
-        sample_size,
         age,
         age_group,
         country_id,
@@ -114,18 +109,7 @@ async function createProfile(req, res) {
 
     return res.status(201).json({
       status: "success",
-      data: {
-        id: profile.id,
-        name,
-        gender: profile.gender,
-        gender_probability: profile.gender_probability,
-        sample_size: profile.sample_size,
-        age: profile.age,
-        age_group: profile.age_group,
-        country_id: profile.country_id,
-        country_probability: profile.country_probability,
-        created_at: profile.created_at,
-      },
+      data: profile,
     });
   } catch (error) {
     console.log(error.message);
